@@ -6,3 +6,4 @@ runs:
   using: "composite"
   steps:
     - run: echo ${{ inputs.foo }}
+      shell: bash
