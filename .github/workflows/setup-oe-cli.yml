@@ -1,0 +1,20 @@
+name: setup-oe-cli
+on:
+  workflow_call:
+    inputs:
+      foo:
+        required: true
+        type: string
+    secrets:
+      bar:
+        required: true
+jobs:
+  setup:
+    name: setup-oe-cli
+    runs-on: ubuntu-latest
+    steps:
+      - name: setup-oe-cli
+        run: |
+          echo ${{ inputs.foo }}
+        env:
+          bar: ${{ secrets.bar }}
