@@ -1,0 +1,9 @@
+name: version
+inputs:
+  foo:
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: echo ${{ inpuits.foo }}
+      shell: bash
