@@ -1,0 +1,8 @@
+name: setup-oe-cli
+inputs:
+  foo:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: echo ${{ inputs.foo }}
