@@ -20,4 +20,4 @@ runs:
         echo login ${{ inputs.login }} >> ~/.netrc
         echo password ${{  inputs.password }} >> ~/.netrc
         go install github.com/sportsball-ai/oe-cli/cmds/oe@${{ inputs.version }}
-    - shell: bash
+      shell: bash
