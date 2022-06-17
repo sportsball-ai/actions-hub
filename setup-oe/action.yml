@@ -1,0 +1,14 @@
+name: setup-oe
+inputs:
+  endpoint:
+    required: true
+  version:
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: |
+        export GONOSUMDB=github.com/sportsball-ai
+        export GOPROXY=${{ inputs.endpoint }}/repository/go
+        export GOSUMDB="sum.golang.org ${{ inputs.endpoint }}/repository/gosumdb"
+        go install github.com/sportsball-ai/oe-cli/cmds/oe@${{ inputs.version }}
