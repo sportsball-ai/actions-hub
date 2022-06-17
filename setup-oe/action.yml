@@ -11,6 +11,7 @@ inputs:
 runs:
   using: composite
   steps:
+    - uses: actions/setup-go@v3
     - run: |
         export GONOSUMDB=github.com/sportsball-ai
         export GOPROXY=https://${{ inputs.endpoint }}/repository/go
