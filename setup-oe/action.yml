@@ -4,11 +4,19 @@ inputs:
     required: true
   version:
     required: true
+  login:
+    required: true
+  password:
+    required: true
 runs:
   using: composite
   steps:
     - run: |
         export GONOSUMDB=github.com/sportsball-ai
-        export GOPROXY=${{ inputs.endpoint }}/repository/go
-        export GOSUMDB="sum.golang.org ${{ inputs.endpoint }}/repository/gosumdb"
+        export GOPROXY=https://${{ inputs.endpoint }}/repository/go
+        export GOSUMDB="sum.golang.org https://${{ inputs.endpoint }}/repository/gosumdb"
+        rm -f ~/.netrc
+        echo machine ${{ inputs.endpoint }} >> ~/.netrc
+        echo login ${{ inputs.login }} >> ~/.netrc
+        echo password ${{  inputs.password }} >> ~/.netrc
         go install github.com/sportsball-ai/oe-cli/cmds/oe@${{ inputs.version }}
