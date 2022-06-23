@@ -10,9 +10,9 @@ runs:
   using: composite
   steps:
     - run: |
-        export GONOSUMDB=github.com/sportsball-ai
-        export GOPROXY=https://${{ inputs.endpoint }}/repository/go
-        export GOSUMDB="sum.golang.org https://${{ inputs.endpoint }}/repository/gosumdb"
+        echo GONOSUMDB=github.com/sportsball-ai >> $GITHUB_ENV
+        echo GOPROXY=https://${{ inputs.endpoint }}/repository/go >> $GITHUB_ENV
+        echo GOSUMDB="sum.golang.org https://${{ inputs.endpoint }}/repository/gosumdb" >> $GITHUB_ENV
         rm -f ~/.netrc
         echo machine ${{ inputs.endpoint }} >> ~/.netrc
         echo login ${{ inputs.login }} >> ~/.netrc
