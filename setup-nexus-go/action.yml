@@ -2,8 +2,6 @@ name: setup-nexus-go
 inputs:
   endpoint:
     required: true
-  version:
-    required: true
   login:
     required: true
   password:
