@@ -1,0 +1,19 @@
+name: setup-nexus-python
+inputs:
+  endpoint:
+    required: true
+  login:
+    required: true
+  password:
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: |
+        rm -f ~/.config/pip/pip.conf
+        echo "[global]\nindex = https://${{ inputs.endpoint }}/repository/python/pypi\nindex-url = https://${{ inputs.endpoint }}/repository/python/simple" >> ~/.config/pip/pip.conf
+        rm -f ~/.netrc
+        echo machine ${{ inputs.endpoint }} >> ~/.netrc
+        echo login ${{ inputs.login }} >> ~/.netrc
+        echo password ${{  inputs.password }} >> ~/.netrc
+      shell: bash
