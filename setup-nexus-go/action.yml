@@ -1,0 +1,21 @@
+name: setup-nexus-go
+inputs:
+  endpoint:
+    required: true
+  login:
+    required: true
+  password:
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: |
+        echo GONOSUMDB=github.com/sportsball-ai >> $GITHUB_ENV
+        echo GOPROXY=https://${{ inputs.endpoint }}/repository/go >> $GITHUB_ENV
+        echo GOSUMDB="sum.golang.org https://${{ inputs.endpoint }}/repository/gosumdb" >> $GITHUB_ENV
+        cat << EOF > ~/.netrc
+        machine ${{ inputs.endpoint }}
+        login ${{ inputs.login }}
+        password ${{  inputs.password }}
+        EOF
+      shell: bash
