@@ -10,14 +10,12 @@ runs:
   using: composite
   steps:
     - run: |
-        rm -f ~/.config/pip/pip.conf
         mkdir -p ~/.config/pip
         cat << EOF > ~/.config/pip/pip.conf
         [global]
         index = https://${{ inputs.endpoint }}/repository/python/pypi
         index-url = https://${{ inputs.endpoint }}/repository/python/simple
         EOF
-        rm -f ~/.netrc
         cat << EOF > ~/.netrc
         machine ${{ inputs.endpoint }}
         login ${{ inputs.login }}
