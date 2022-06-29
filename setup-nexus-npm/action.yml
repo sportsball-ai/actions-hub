@@ -1,0 +1,17 @@
+name: setup-nexus-npm
+inputs:
+  endpoint:
+    required: true
+  login:
+    required: true
+  password:
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: |
+        cat << EOF > ~/.npmrc
+        registry=https://${{ inputs.endpoint }}/repository/npm-txm
+        _auth=$(echo -n ${{ inputs.login }}:${{ inputs.password }} | base64)
+        EOF
+      shell: bash
