@@ -14,7 +14,9 @@ runs:
         echo GOPROXY=https://${{ inputs.endpoint }}/repository/go >> $GITHUB_ENV
         echo GOSUMDB="sum.golang.org https://${{ inputs.endpoint }}/repository/gosumdb" >> $GITHUB_ENV
         rm -f ~/.netrc
-        echo machine ${{ inputs.endpoint }} >> ~/.netrc
-        echo login ${{ inputs.login }} >> ~/.netrc
-        echo password ${{  inputs.password }} >> ~/.netrc
+        cat << EOF > ~/.netrc
+        machine ${{ inputs.endpoint }}
+        login ${{ inputs.login }}
+        password ${{  inputs.password }}
+        EOF
       shell: bash
