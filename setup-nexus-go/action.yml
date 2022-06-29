@@ -13,7 +13,6 @@ runs:
         echo GONOSUMDB=github.com/sportsball-ai >> $GITHUB_ENV
         echo GOPROXY=https://${{ inputs.endpoint }}/repository/go >> $GITHUB_ENV
         echo GOSUMDB="sum.golang.org https://${{ inputs.endpoint }}/repository/gosumdb" >> $GITHUB_ENV
-        rm -f ~/.netrc
         cat << EOF > ~/.netrc
         machine ${{ inputs.endpoint }}
         login ${{ inputs.login }}
