@@ -1,0 +1,24 @@
+name: setup-nexus-python
+inputs:
+  endpoint:
+    required: true
+  login:
+    required: true
+  password:
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: |
+        mkdir -p ~/.config/pip
+        cat << EOF > ~/.config/pip/pip.conf
+        [global]
+        index = https://${{ inputs.endpoint }}/repository/python/pypi
+        index-url = https://${{ inputs.endpoint }}/repository/python/simple
+        EOF
+        cat << EOF > ~/.netrc
+        machine ${{ inputs.endpoint }}
+        login ${{ inputs.login }}
+        password ${{  inputs.password }}
+        EOF
+      shell: bash
