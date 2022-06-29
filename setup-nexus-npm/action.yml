@@ -10,10 +10,8 @@ runs:
   using: composite
   steps:
     - run: |
-        rm -f ~/.npmrc
         cat << EOF > ~/.npmrc
         registry=https://${{ inputs.endpoint }}/repository/npm-txm
         _auth=$(echo -n ${{ inputs.login }}:${{ inputs.password }} | base64)
         EOF
-        source ~/.npmrc
       shell: bash
