@@ -11,7 +11,9 @@ runs:
   steps:
     - run: |
         rm -f ~/.npmrc
-        echo registry=https://${{ inputs.endpoint }}/repository/npm-txm >> ~/.npmrc
-        echo _auth=$(echo -n ${{ inputs.login }}:${{ inputs.password }} | base64) >> ~/.npmrc
+        cat << EOF > ~/.npmrc
+        registry=https://${{ inputs.endpoint }}/repository/npm-txm
+        _auth=$(echo -n ${{ inputs.login }}:${{ inputs.password }} | base64)
+        EOF
         source ~/.npmrc
       shell: bash
