@@ -10,7 +10,7 @@ However, since this repository is public, it is important to not expose informat
 
 Create new composite actions in the following location. `<name>/action.yml`
 
-## Example
+### Example
 
 ```yml
 name: version
@@ -24,7 +24,11 @@ runs:
       shell: bash
 ```
 
-## Example Usage
+## Usage
+
+Each composite action will contain a README `<name>/README.md` with documentation and examples about how to use that particular action.
+
+### Example
 
 ```yml
 name: oe-cli
