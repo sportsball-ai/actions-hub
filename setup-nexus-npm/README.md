@@ -1,5 +1,7 @@
 # setup-nexus-npm
 
+Configure a github action to point towards a self hosted Npm repository. After usage, any calls to `npm install` will point towards the repository at the endpoint provided.
+
 ## Parameters
 - Endpoint: the npm registry endpoint
 - Login: the login for the self hosted npm repository, typically stored as a secret

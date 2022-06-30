@@ -1,5 +1,7 @@
 # setup-nexus-go
 
+Configure a github action to point towards a self hosted Go repository. After usage, any calls to `go get` will point towards the repository at the endpoint provided.
+
 ## Parameters
 - Endpoint: the endpoint to use for GOPROXY
 - Login: the login for the self hosted Go repository, typically stored as a secret
