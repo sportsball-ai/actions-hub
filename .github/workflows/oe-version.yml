@@ -17,8 +17,7 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    permissions:
-      packages: read    
+    permissions: read-all
 
     outputs:
       new_version_tag: ${{ steps.calculate-version.outputs.version }}
