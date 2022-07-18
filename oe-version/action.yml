@@ -1,0 +1,45 @@
+name: oe-version
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+
+jobs:
+  oe-version:
+    container:
+      image: ghcr.io/sportsball-ai/oe-cli:${{ inputs.version }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    outputs:
+      new_version_tag: ${{ steps.calculate-version.outputs.version }}
+    
+    steps:
+      - name: checkout git repo
+        uses: actions/checkout@v3
+      
+      - name: set github user and email
+        run: |
+          git config --global user.email "ci@tempus-ex.com"
+          git config --global user.name "tempus-bot"
+
+      - name: fetch git tags
+        run: git fetch --prune --unshallow --tags
+
+      - name: calculate latest version
+        id: calculate-version
+        run: |
+          echo "current version: $(oe version)"
+          echo "branch name: $GITHUB_HEAD_REF"
+          export NEW_VERSION_TAG=$(oe version -i -b $GITHUB_HEAD_REF)"
+          echo "new version: $NEW_VERSION_TAG"
+          echo "::set-output name=version::$NEW_VERSION_TAG"
+
+
+
+    
+    
