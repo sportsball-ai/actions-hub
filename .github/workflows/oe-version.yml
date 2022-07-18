@@ -10,11 +10,15 @@ on:
 jobs:
   oe-version:
     runs-on: ubuntu-latest
+
     container:
       image: ghcr.io/sportsball-ai/oe-cli:${{ inputs.version }}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+
+    permissions:
+      packages: read    
 
     outputs:
       new_version_tag: ${{ steps.calculate-version.outputs.version }}
