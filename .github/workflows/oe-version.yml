@@ -28,7 +28,7 @@ jobs:
 
       - name: grant permission for unsafe repository
         run: |
-          git config --global --add safe.directory /__w/${{github.repository}}/${{github.repository}}
+          git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       
       - name: set github user and email
         run: |
