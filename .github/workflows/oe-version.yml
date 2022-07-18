@@ -9,6 +9,7 @@ on:
 
 jobs:
   oe-version:
+    runs-on: ubuntu-latest
     container:
       image: ghcr.io/sportsball-ai/oe-cli:${{ inputs.version }}
       credentials:
