@@ -7,6 +7,16 @@ on:
         required: true
         type: string
 
+      tag:
+        required: false
+        type: boolean
+        default: false
+      
+      npm:
+        required: false
+        type: boolean
+        default: false
+
 jobs:
   oe-version:
     runs-on: ubuntu-latest
@@ -46,3 +56,22 @@ jobs:
           NEW_VERSION_TAG=$(oe version -i -b $GITHUB_HEAD_REF) && export NEW_VERSION_TAG
           echo "new version: $NEW_VERSION_TAG"
           echo "::set-output name=version::$NEW_VERSION_TAG"
+
+      - name: tag using oe
+        if: ${{ inputs.tag && !inputs.npm && (github.base_ref == "main" || startsWith(github.base_ref, "v") ) }}
+        run: |
+          oe version -i -b $GITHUB_HEAD_REF --push -y
+          echo "version successfully updated"
+          git push origin $GITHUB_BASE_REF
+          git push origin --tags
+          echo "pushed new version to repo"
+      
+      - name: tag using npm
+        if: ${{ inputs.tag && inputs.npm && (github.base_ref == "main" || startsWith(github.base_ref, "v") )  }}
+        run: |
+          NEW_VERSION_TAG=$(oe version -i -b $GITHUB_HEAD_REF) && export NEW_VERSION_TAG
+          npm version $NEW_VERSION_TAG
+          echo "NPM version successfully updated"
+          git push origin $GITHUB_BASE_REF
+          git push origin --tags
+          echo "pushed new version tag: $NEW_VERSION_TAG to repo"
