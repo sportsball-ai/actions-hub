@@ -27,7 +27,7 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    permissions: read-all
+    permissions: write-all
 
     outputs:
       new_version_tag: ${{ steps.calculate-version.outputs.version }}
@@ -58,7 +58,7 @@ jobs:
           echo "::set-output name=version::$NEW_VERSION_TAG"
 
       - name: tag using oe
-        if: ${{ inputs.tag && !inputs.npm && (github.base_ref == 'main' || startsWith(github.base_ref, 'v') ) }}
+        if: ${{ inputs.tag && !inputs.npm && (github.base_ref == 'main' || startsWith(github.base_ref, 'v') ) && github.event.pull_request.merged }}
         run: |
           oe version -i -b $GITHUB_HEAD_REF --push -y
           echo "version successfully updated"
@@ -67,13 +67,13 @@ jobs:
           echo "pushed new version to repo"
 
       - name: setup node if using npm
-        if: ${{ inputs.tag && inputs.npm && (github.base_ref == 'main' || startsWith(github.base_ref, 'v') )  }}
+        if: ${{ inputs.tag && inputs.npm && (github.base_ref == 'main' || startsWith(github.base_ref, 'v') ) && github.event.pull_request.merged  }}
         uses: actions/setup-node@v3
         with:
           node-version: 16
 
       - name: tag using npm
-        if: ${{ inputs.tag && inputs.npm && (github.base_ref == 'main' || startsWith(github.base_ref, 'v') )  }}
+        if: ${{ inputs.tag && inputs.npm && (github.base_ref == 'main' || startsWith(github.base_ref, 'v') ) && github.event.pull_request.merged  }}
         run: |
           NEW_VERSION_TAG=$(oe version -i -b $GITHUB_HEAD_REF) && export NEW_VERSION_TAG
           npm version $NEW_VERSION_TAG
