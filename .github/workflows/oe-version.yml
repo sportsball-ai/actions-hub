@@ -65,7 +65,13 @@ jobs:
           git push origin $GITHUB_BASE_REF
           git push origin --tags
           echo "pushed new version to repo"
-      
+
+      - name: setup node if using npm
+        if: ${{ inputs.tag && inputs.npm && (github.base_ref == 'main' || startsWith(github.base_ref, 'v') )  }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
       - name: tag using npm
         if: ${{ inputs.tag && inputs.npm && (github.base_ref == 'main' || startsWith(github.base_ref, 'v') )  }}
         run: |
