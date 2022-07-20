@@ -34,15 +34,6 @@ jobs:
         run: |
           git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
 
-      - name: set github user and email
-        run: |
-          git config --global user.email "ci@tempus-ex.com"
-          git config --global user.name "tempus-bot"
-
-      - name: make dir writable
-        run: |
-          chmod -R o+w /__w/${{ github.event.repository.name }}
-
       - name: fetch git tags
         run: git fetch --prune --unshallow --tags
 
