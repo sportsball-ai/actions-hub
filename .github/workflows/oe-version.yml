@@ -40,6 +40,10 @@ jobs:
         run: |
           git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       
+      - name: make dir writable
+        run: |
+          chmod -R o+w /__w/${{ github.event.repository.name }}
+
       - name: set github user and email
         run: |
           git config --global user.email "ci@tempus-ex.com"
