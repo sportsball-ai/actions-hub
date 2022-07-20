@@ -3,6 +3,7 @@ on:
   workflow_call:
     inputs:
       version:
+        description: the version of oe-cli to use
         required: true
         type: string
 
