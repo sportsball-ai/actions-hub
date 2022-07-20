@@ -1,5 +1,4 @@
-name: oe-version
-
+name: calculate-version
 on:
   workflow_call:
     inputs:
@@ -9,11 +8,11 @@ on:
 
     outputs:
       version:
-        value: ${{ jobs.oe-version.outputs.version }}
+        value: ${{ jobs.calculate-version.outputs.version }}
 
 
 jobs:
-  oe-version:
+  calculate-version:
     runs-on: ubuntu-latest
 
     container:
