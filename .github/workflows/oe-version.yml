@@ -68,9 +68,10 @@ jobs:
 
       - name: setup node if using npm
         if: ${{ inputs.tag && inputs.npm && (github.base_ref == 'main' || startsWith(github.base_ref, 'v') ) && github.event.pull_request.merged  }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
+        run: |
+          apk update
+          apk add nodejs=~16
+          apk add npm=~8
 
       - name: tag using npm
         if: ${{ inputs.tag && inputs.npm && (github.base_ref == 'main' || startsWith(github.base_ref, 'v') ) && github.event.pull_request.merged  }}
