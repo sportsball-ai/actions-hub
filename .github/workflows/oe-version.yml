@@ -60,29 +60,3 @@ jobs:
           NEW_VERSION_TAG=$(oe version -i -b $GITHUB_HEAD_REF) && export NEW_VERSION_TAG
           echo "new version: $NEW_VERSION_TAG"
           echo "::set-output name=version::$NEW_VERSION_TAG"
-
-      - name: tag using oe
-        if: ${{ inputs.tag && !inputs.npm && (github.base_ref == 'main' || startsWith(github.base_ref, 'v') ) && github.event.pull_request.merged }}
-        run: |
-          oe version -i -b $GITHUB_HEAD_REF --push -y
-          echo "version successfully updated"
-          git push origin $GITHUB_BASE_REF
-          git push origin --tags
-          echo "pushed new version to repo"
-
-      - name: setup node if using npm
-        if: ${{ inputs.tag && inputs.npm && (github.base_ref == 'main' || startsWith(github.base_ref, 'v') ) && github.event.pull_request.merged  }}
-        run: |
-          apk update
-          apk add nodejs=~16
-          apk add npm=~8
-
-      - name: tag using npm
-        if: ${{ inputs.tag && inputs.npm && (github.base_ref == 'main' || startsWith(github.base_ref, 'v') ) && github.event.pull_request.merged  }}
-        run: |
-          NEW_VERSION_TAG=$(oe version -i -b $GITHUB_HEAD_REF) && export NEW_VERSION_TAG
-          npm version $NEW_VERSION_TAG
-          echo "NPM version successfully updated"
-          git push origin $GITHUB_BASE_REF
-          git push origin --tags
-          echo "pushed new version tag: $NEW_VERSION_TAG to repo"
