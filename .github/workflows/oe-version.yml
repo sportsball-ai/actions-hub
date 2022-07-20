@@ -7,15 +7,10 @@ on:
         required: true
         type: string
 
-      tag:
-        required: false
-        type: boolean
-        default: false
-      
-      npm:
-        required: false
-        type: boolean
-        default: false
+    outputs:
+      version:
+        value: ${{ jobs.oe-version.outputs.version }}
+
 
 jobs:
   oe-version:
@@ -30,7 +25,7 @@ jobs:
     permissions: write-all
 
     outputs:
-      new_version_tag: ${{ steps.calculate-version.outputs.version }}
+      version: ${{ steps.calculate-version.outputs.version }}
     
     steps:
       - name: checkout git repo
