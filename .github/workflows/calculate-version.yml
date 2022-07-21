@@ -1,0 +1,48 @@
+name: calculate-version
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: the version of oe-cli to use
+        required: true
+        type: string
+
+    outputs:
+      version:
+        value: ${{ jobs.calculate-version.outputs.version }}
+
+
+jobs:
+  calculate-version:
+    runs-on: ubuntu-latest
+
+    container:
+      image: ghcr.io/sportsball-ai/oe-cli:${{ inputs.version }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    permissions: write-all
+
+    outputs:
+      version: ${{ steps.calculate-version.outputs.version }}
+    
+    steps:
+      - name: checkout git repo
+        uses: actions/checkout@v3
+
+      - name: grant permission for unsafe repository
+        run: |
+          git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+
+      - name: fetch git tags
+        run: git fetch --prune --unshallow --tags
+
+      - name: calculate latest version
+        id: calculate-version
+        run: |
+          echo "current version: $(oe version)"
+          echo "branch name: $GITHUB_HEAD_REF"
+          NEW_VERSION_TAG=$(oe version -i -b $GITHUB_HEAD_REF) && export NEW_VERSION_TAG
+          echo "new version: $NEW_VERSION_TAG"
+          echo "::set-output name=version::$NEW_VERSION_TAG"

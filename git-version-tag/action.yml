@@ -1,0 +1,14 @@
+name: git-version-tag
+inputs:
+  version:
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: |
+        git tag ${{ inputs.version }}
+        echo "version successfully updated"
+        git push origin $GITHUB_BASE_REF
+        git push origin --tags
+        echo "pushed new version to repo"
+      shell: bash
