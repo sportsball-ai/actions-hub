@@ -16,12 +16,14 @@ on:
 
 jobs:
   reusable_workflow_job:
+    if: github.event.pull_request.merged == true
     uses: sportsball-ai/actions-hub/.github/workflows/calculate-version.yml@<VERSION>
     with:
       version: <OE-CLI_VERSION>
     secrets: inherit
 
   npm_version_tag:
+    if: github.event.pull_request.merged == true
     needs: reusable_workflow_job
     runs-on: ubuntu-latest
     steps:
