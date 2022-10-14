@@ -1,8 +1,8 @@
 # major-version-tag
 
-A composite action that takes a txm standard version number (vM.m.p) and returns the major version/revision (vM.0)
+A composite action that takes a txm standard version number (vM.m.p) and returns the major version/revision (vM)
 
-In the following example, in the "calculate-version" job, we specify the major version of oe-cli to use for versioning (v0.0).
+In the following example, in the "calculate-version" job, we specify the major version of oe-cli to use for versioning (v0).
 
 In the "build_and_tag_new_image" job, we use the "major-version-tag" composite action to get the major version of the new, current version.
 
@@ -27,7 +27,7 @@ jobs:
     with:
       # in the case of this calculate-version shared workflow, this is the major version of oe-cli to use for versioning
       # the major version tag can be used to get the latest major revision of any artifact that is versioned using this approach
-      version: v0.0
+      version: v0
     secrets: inherit
 
   git_version_tag:
@@ -94,14 +94,14 @@ The above ensures that with each run of the workflow:
 
 ```
 workflow run 1
-    image v0.0.0 v0.0
+    image v0.0.0 v0
 workflow run 2 (minor version bump)
-    image v0.1.0 v0.0
+    image v0.1.0 v0
 workflow run 3 (patch version bump)
-    image v0.1.1 v0.0
+    image v0.1.1 v0
 workflow run 4 (deprecation/major version bump)
-    image v1.0.0 v1.0
+    image v1.0.0 v1
 workflow run 5 (minor version bump)
-    image v1.1.0 v1.0
+    image v1.1.0 v1
 ```
 The major version tag "follows" each latest revision of the same major version, thus allowing users to specify a major version tag and always get the "latest" compatible major version of a given artifact that is versioned in this way.
