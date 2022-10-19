@@ -57,3 +57,16 @@ jobs:
           echo test
 ```
 
+## Versioning
+
+Whenever a shared workflow or composite action from this repo is called from within your workflow, it must have a tag reference so it can be properly identified, e.g. `uses: sportsball-ai/actions-hub/git-version-tag@main`
+
+While it is possible to just use `@main` to get the latest head of the repo on the main branch, main/HEAD is currently tagged as "v1".  This is so that we can identify when a breaking change is introduced and thus introduce new functionality without breaking existing external references to this repo.
+
+**Note**
+If you are contributing to this repo, please consider whether you are introducing a breaking change or not, i.e is this a feature, patch or deprecation. 
+
+Once your PR is approved and merged:
+- for a non-breaking change, please move the v1 tag (or whatever tag represents the most current version) to the current main/HEAD.
+
+- if you are introducing a deprecation, i.e. a removal of previous functionality, then please create the next logical vN tag on the current main/HEAD
