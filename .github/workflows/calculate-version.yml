@@ -45,4 +45,4 @@ jobs:
           echo "branch name: $GITHUB_HEAD_REF"
           NEW_VERSION_TAG=$(oe version -i -b $GITHUB_HEAD_REF) && export NEW_VERSION_TAG
           echo "new version: $NEW_VERSION_TAG"
-          echo "{version}={NEW_VERSION_TAG}" >> $GITHUB_OUTPUT
+          echo "::set-output name=version::$NEW_VERSION_TAG"

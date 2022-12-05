@@ -15,5 +15,5 @@ runs:
         version=${{ inputs.version }}
         MAJOR_VERSION=(${version//./ })
         echo "major version is $MAJOR_VERSION"
-        echo "{major_version}={MAJOR_VERSION}" >> $GITHUB_OUTPUT
+        echo "::set-output name=major_version::$MAJOR_VERSION"
       shell: bash
