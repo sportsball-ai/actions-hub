@@ -15,5 +15,6 @@ runs:
         version=${{ inputs.version }}
         MAJOR_VERSION=(${version//./ })
         echo "major version is $MAJOR_VERSION"
-        echo "::set-output name=major_version::$MAJOR_VERSION"
+        echo "major_version=$MAJOR_VERSION" >> $GITHUB_OUTPUT
+        if [[ -z "${GITHUB_OUTPUT}" ]]; then echo "GITHUB_OUTPUT zero length or unset! Aborting"; exit 1; fi
       shell: bash
