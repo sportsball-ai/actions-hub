@@ -5,7 +5,7 @@ A composite action that takes in a version number and tags the next version of c
 ## Example Usage
 
 ```yaml
-name: oe-version
+name: git-version-tag-example
 
 on:
   pull_request:
@@ -19,7 +19,7 @@ jobs:
     if: github.event.pull_request.merged == true
     uses: sportsball-ai/actions-hub/.github/workflows/calculate-version.yml@<VERSION>
     with:
-      version: <OE-CLI_VERSION>
+      version: <TXM-CLI_VERSION>
     secrets: inherit
 
   git_version_tag:
