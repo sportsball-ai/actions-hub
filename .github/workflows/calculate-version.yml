@@ -3,7 +3,7 @@ on:
   workflow_call:
     inputs:
       version:
-        description: the version of oe-cli to use
+        description: the version of txm-cli to use
         required: true
         type: string
 
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/sportsball-ai/oe-cli:${{ inputs.version }}
+      image: ghcr.io/sportsball-ai/txm-cli:${{ inputs.version }}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -41,9 +41,9 @@ jobs:
       - name: calculate latest version
         id: calculate-version
         run: |
-          echo "current version: $(oe version)"
+          echo "current version: $(txm version)"
           echo "branch name: $GITHUB_HEAD_REF"
-          NEW_VERSION_TAG=$(oe version -i -b $GITHUB_HEAD_REF) && export NEW_VERSION_TAG
+          NEW_VERSION_TAG=$(txm version -i -b $GITHUB_HEAD_REF) && export NEW_VERSION_TAG
           echo "new version: $NEW_VERSION_TAG"
           echo "version=$NEW_VERSION_TAG" >> $GITHUB_OUTPUT
           if [[ -z "${GITHUB_OUTPUT}" ]]; then echo "GITHUB_OUTPUT zero length or unset! Aborting"; exit 1; fi

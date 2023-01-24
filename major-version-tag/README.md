@@ -2,7 +2,7 @@
 
 A composite action that takes a txm standard version number (vM.m.p) and returns the major version/revision (vM)
 
-In the following example, in the "calculate-version" job, we specify the major version of oe-cli to use for versioning (v0).
+In the following example, in the "calculate-version" job, we specify the major version of txm-cli to use for versioning (v2).
 
 In the "build_and_tag_new_image" job, we use the "major-version-tag" composite action to get the major version of the new, current version.
 
@@ -23,11 +23,11 @@ on:
 jobs:
   calculate-version:
     if: github.event.pull_request.merged == true
-    uses: sportsball-ai/actions-hub/.github/workflows/calculate-version.yml@v1
+    uses: sportsball-ai/actions-hub/.github/workflows/calculate-version.yml@v2
     with:
       # in the case of this calculate-version shared workflow, this is the major version of oe-cli to use for versioning
       # the major version tag can be used to get the latest major revision of any artifact that is versioned using this approach
-      version: v0
+      version: v2
     secrets: inherit
 
   git_version_tag:
@@ -43,7 +43,7 @@ jobs:
             echo ${{ needs.calculate-version.outputs.version }}
 
         - name: git tag
-          uses: sportsball-ai/actions-hub/git-version-tag@v1
+          uses: sportsball-ai/actions-hub/git-version-tag@v2
           with:
             version: ${{ needs.calculate-version.outputs.version }}
 
@@ -61,7 +61,7 @@ jobs:
         # this composite action will produce the major version tag for a given version
       - name: get major version tag
         id: major_version_tag
-        uses: sportsball-ai/actions-hub/major-version-tag@v1
+        uses: sportsball-ai/actions-hub/major-version-tag@v2
         with: 
           version: ${{ needs.calculate-version.outputs.version }}
 
@@ -85,7 +85,7 @@ jobs:
 ```
 
 The above ensures that with each run of the workflow:
-- the latest oe-cli docker image for the specified major version is used to handle versioning of the artifact being built in the workflow
+- the latest txm-cli docker image for the specified major version is used to handle versioning of the artifact being built in the workflow
 - a new, TXM standard version is generated (vM.m.p) for the artifact being built/versioned in the workflow (in this case a docker image)
 - any feature (i.e. a minor version bump) will produce the same major version tag via the "major-version-tag" composite action
 - because docker tags must be unique, this same major version tag will follow/move to the latest major version of the artifact with each push to GHCR.

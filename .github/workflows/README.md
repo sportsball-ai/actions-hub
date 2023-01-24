@@ -1,11 +1,11 @@
 # calculate-version
 
-A github action reusable workflow that uses `oe-cli` to calculate the next version of code
+A github action reusable workflow that uses `txm-cli` to calculate the next version of code
 
 ## Example Usage with Npm
 
 ```yaml
-name: oe-version
+name: txm-version
 
 on:
   pull_request:
@@ -19,7 +19,7 @@ jobs:
     if: github.event.pull_request.merged == true
     uses: sportsball-ai/actions-hub/.github/workflows/calculate-version.yml@<VERSION>
     with:
-      version: <OE-CLI_VERSION>
+      version: <TXM-CLI_VERSION>
     secrets: inherit
 
   npm_version_tag:
@@ -52,7 +52,7 @@ jobs:
 ## Example Usage without Npm
 
 ```yaml
-name: oe-version
+name: txm-version
 
 on:
   pull_request:
@@ -66,7 +66,7 @@ jobs:
     if: github.event.pull_request.merged == true
     uses: sportsball-ai/actions-hub/.github/workflows/calculate-version.yml@<VERSION>
     with:
-      version: <OE-CLI_VERSION>
+      version: <TXM-CLI_VERSION>
     secrets: inherit
 
   git_version_tag:
