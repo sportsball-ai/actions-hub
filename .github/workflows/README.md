@@ -86,3 +86,37 @@ jobs:
         with:
           version: ${{ needs.reusable_workflow_job.outputs.version }}
 ```
+
+# publish-to-confluence
+
+A configurable github action reusable workflow that will publish specified documents to Confluence.
+Outputs the confluence url of the published document(s) as an environment variable called $confluence_url.
+See https://github.com/justmiles/go-markdown2confluence for more details.
+
+## Example Usage
+
+```yaml
+name: publish README to confluence
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+
+jobs:
+  publish_to_confluence:
+    if: github.event.pull_request.merged == true
+    uses: sportsball-ai/actions-hub/.github/workflows/publish-to-confluence.yml@v2
+    secrets: inherit
+    with:
+      comment: "this is version 1" # add an optional comment to the published page
+      exclude: ".*temp.md" # List of exclude file patterns (regex) that will be applied on markdown file paths.
+      modified_since: 10 # Only upload files that have modifed in the past n minutes.
+      parent: "Teams/Operational Excellence" # Optional parent page to nest content under.  Separate multiple parent pages with /.
+      space: "TXM" # Confluence space under which content should be published.  Default TXM.
+      title: "" # Set the page title on upload (defaults to filename without extension).
+      use_document_title: true # Will use the Markdown document title (# Title) if available.  Default false.
+      documents: "some-folder/some-doc(s)" # The documents to upload.  Can be a directory of documents or a single file.  Default is README.md at root of repo.
+```
