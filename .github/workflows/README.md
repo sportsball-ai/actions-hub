@@ -111,7 +111,7 @@ jobs:
     uses: sportsball-ai/actions-hub/.github/workflows/publish-to-confluence.yml@v2
     secrets: inherit
     with:
-      comment: "this is version 1" # add an optional comment to the published page
+      comment: "this is a comment..." # add an optional comment to the published page
       exclude: ".*temp.md" # List of exclude file patterns (regex) that will be applied on markdown file paths.
       modified_since: 10 # Only upload files that have modifed in the past n minutes.
       parent: "Teams/Operational Excellence" # Optional parent page to nest content under.  Separate multiple parent pages with /.
