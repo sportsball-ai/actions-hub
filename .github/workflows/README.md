@@ -111,12 +111,12 @@ jobs:
     uses: sportsball-ai/actions-hub/.github/workflows/publish-to-confluence.yml@v2
     secrets: inherit
     with:
-      comment: "this is a comment..." # add an optional comment to the published page
-      exclude: ".*temp.md" # List of exclude file patterns (regex) that will be applied on markdown file paths.
+      comment: this is a comment... # add an optional comment to the published page
+      exclude: .*temp.md # List of exclude file patterns (regex) that will be applied on markdown file paths.
       modified_since: 10 # Only upload files that have modifed in the past n minutes.
-      parent: "Teams/Operational Excellence" # Optional parent page to nest content under.  Separate multiple parent pages with /.
-      space: "TXM" # Confluence space under which content should be published.  Default TXM.
-      title: "" # Set the page title on upload (defaults to filename without extension).
-      use_document_title: true # Will use the Markdown document title (# Title) if available.  Default false.
-      documents: "some-folder/some-doc(s)" # The documents to upload.  Can be a directory of documents or a single file.  Default is README.md at root of repo.
+      parent: Teams/Operational Excellence # Optional parent page to nest content under.  Separate multiple parent pages with /.
+      space: TXM # Confluence space under which content should be published.  Can be omitted as default is TXM.
+      title: My README # Set the page title on upload (defaults to filename without extension).
+      use_document_title: true # Will use the Markdown document title (# Title) if available.  Default false.  If true, don't specify title.
+      documents: some-folder/some-doc(s) # The documents to upload.  Can be a directory of documents or a single file.  Default is README.md at root of repo.
 ```

@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       comment:
-        description: Add an optional comment to the published page.
+        description: (Optional) Add comment to page
         required: false
         type: string
       exclude:
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: nexus.txm.tools/golang:latest
+      image: nexus.txm.tools/golang:1.18.2
       credentials:
         username: ${{ secrets.NEXUS_USER_CI_DOCKER }}
         password: ${{ secrets.NEXUS_PASSWORD_CI_DOCKER }}
@@ -62,8 +62,9 @@ jobs:
     steps:
       - name: download and install markdown2confluence
         run: |
-          curl -LO https://github.com/justmiles/go-markdown2confluence/releases/download/v3.4.6/go-markdown2confluence_3.4.6_linux_x86_64.tar.gz
+          curl -u ${{secrets.NEXUS_USER_CI_RAW}}:${{secrets.NEXUS_PASSWORD_CI_RAW}} https://nexus.txm.tools/repository/raw-txm/go-markdown2confluence_3.4.6_linux_x86_64.tar.gz --output go-markdown2confluence_3.4.6_linux_x86_64.tar.gz
           tar -xzvf go-markdown2confluence_3.4.6_linux_x86_64.tar.gz -C /usr/local/bin/ markdown2confluence
+        shell: bash
 
       - name: checkout git repo
         uses: actions/checkout@v3
@@ -84,17 +85,15 @@ jobs:
           use_document_title: ${{ inputs.use_document_title }}
           documents: ${{ inputs.documents }}
         run: |
+          set -x
           echo "publishing specified document(s) to Confluence..."
-          echo "will run the following command:"
-
-          if [[ "${{ inputs.use_document_title }}" == "true" ]]; then
-            echo "markdown2confluence ${comment:+--comment $comment} ${exclude:+--exclude $exclude} ${modified_since:+--modified-since $modified_since} ${parent:+--parent $parent} ${space:+--space $space} ${title:+--title $title} --use-document-title $documents"
-            publish_result=$(markdown2confluence ${comment:+--comment $comment} ${exclude:+--exclude $exclude} ${modified_since:+--modified-since $modified_since} ${parent:+--parent $parent} ${space:+--space $space} ${title:+--title $title} --use-document-title $documents)
+          
+          if [[ "${{ inputs.use_document_title }}" == "true" ]]; then  
+            publish_result=$(markdown2confluence ${comment:+--comment "${comment}"} ${exclude:+--exclude "${exclude}"} ${modified_since:+--modified-since $modified_since} ${space:+--space "${space}"} ${parent:+--parent "${parent}"} --use-document-title $documents)
             echo "confluence_url=$publish_result" >> $GITHUB_OUTPUT
             if [[ -z "${GITHUB_OUTPUT}" ]]; then echo "GITHUB_OUTPUT zero length or unset! Aborting"; exit 1; fi
           else
-            echo "markdown2confluence ${comment:+--comment $comment} ${exclude:+--exclude $exclude} ${modified_since:+--modified-since $modified_since} ${parent:+--parent $parent} ${space:+--space $space} ${title:+--title $title} $documents"
-            publish_result=$(markdown2confluence ${comment:+--comment $comment} ${exclude:+--exclude $exclude} ${modified_since:+--modified-since $modified_since} ${parent:+--parent $parent} ${space:+--space $space} ${title:+--title $title} $documents)
+            publish_result=$(markdown2confluence ${comment:+--comment "${comment}"} ${exclude:+--exclude "${exclude}"} ${modified_since:+--modified-since $modified_since} ${space:+--space "${space}"} ${parent:+--parent "${parent}"} ${title:+--title "${title}"} $documents)            
             echo "confluence_url=$publish_result" >> $GITHUB_OUTPUT
             if [[ -z "${GITHUB_OUTPUT}" ]]; then echo "GITHUB_OUTPUT zero length or unset! Aborting"; exit 1; fi          
           fi
