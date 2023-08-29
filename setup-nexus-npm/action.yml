@@ -1,17 +1,23 @@
 name: setup-nexus-npm
 inputs:
   endpoint:
-    required: true
-  login:
-    required: true
+    required: false
+    default: "nexus.txm.tools"
+  username:
+    required: false
+    default: ${{ secrets.NEXUS_USER_CI_NPM }}
   password:
-    required: true
+    required: false
+    default: ${{ secrets.NEXUS_PASSWORD_CI_NPM }}
 runs:
   using: composite
   steps:
-    - run: |
+    - name: check value of provided endpoint
+      shell: bash 
+    - run: |        
         cat << EOF > ~/.npmrc
-        registry=https://${{ inputs.endpoint }}/repository/npm-txm
-        _auth=$(echo -n ${{ inputs.login }}:${{ inputs.password }} | base64)
+        registry = https://${{ inputs.endpoint }}/repository/npm/
+        @txm:registry=https://${{ inputs.endpoint }}/repository/npm-txm/
+        //${{ inputs.endpoint }}/repository/:_auth=$(echo -n ${{ inputs.username }}:${{ inputs.password }} | base64)
         EOF
       shell: bash
