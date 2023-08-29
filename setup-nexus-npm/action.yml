@@ -12,6 +12,8 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: check value of provided endpoint
+      shell: bash 
     - run: |        
         cat << EOF > ~/.npmrc
         registry = https://${{ inputs.endpoint }}/repository/npm/
