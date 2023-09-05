@@ -15,6 +15,6 @@ A composite github action for creating a .npmrc file that will point to the npm 
 - name: setup-nexus-npm
   uses: sportsball-ai/actions-hub/setup-nexus-npm@<VERSION>
   with:
-    login: ${{ secrets.USERNAME }}
+    username: ${{ secrets.USERNAME }}
     password: ${{ secrets.PASSWORD }}    
 ```
