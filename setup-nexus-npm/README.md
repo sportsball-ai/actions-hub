@@ -1,22 +1,20 @@
 # setup-nexus-npm
 
-Configure a github action to point towards a self hosted Npm repository. After usage, any calls to `npm install` will point towards the repository at the endpoint provided.
+A composite github action for creating a .npmrc file that will point to the npm repositories in nexus.  This allows developers to use Nexus to both access TXM internal Node modules as well as as a proxy for all Node dependencies.
 
 ## Parameters
-- Endpoint: the npm registry endpoint
-- Login: the login for the self hosted npm repository, typically stored as a secret
-- Password: the password for the self hosted npm repository, typically stored as a secret
+- username: Required. The username for accessing the npm repositories in nexus, typically provided as a secret from the calling workflow
+- password: Required. The password for accessing the npm repositories in nexus, typically provided as a secret from the calling workflow
 
 ## Example Usage
 
 ```yaml
 - uses: actions/setup-node@v3
   with:
-    node-version: 14
-- name: Set up setup-nexus-npm
+    node-version: 18
+- name: setup-nexus-npm
   uses: sportsball-ai/actions-hub/setup-nexus-npm@<VERSION>
   with:
-    endpoint: <URL>
-    login: ${{ secrets.LOGIN }}
+    username: ${{ secrets.USERNAME }}
     password: ${{ secrets.PASSWORD }}    
 ```
